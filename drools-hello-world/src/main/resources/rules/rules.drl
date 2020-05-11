@@ -1,0 +1,28 @@
+package rules.rules
+
+import com.drools.model.Product
+
+rule "Offer for Diamond"
+	when 
+		productObject: Product(type=="diamond")
+	then
+		productObject.setDiscount(15);
+	end
+rule "Offer for Gold"
+salience 1
+activation-group "gold"
+	when 
+		productObject: Product(type=="gold")
+	then
+		productObject.setDiscount(productObject.getDiscount() + 5);
+		System.out.println("Offer for Gold");
+	end
+rule "Offer for Gold on Festival"
+salience 2
+activation-group "gold"
+	when 
+		productObject: Product(type=="gold") && Product(event=="sale")
+	then
+		productObject.setDiscount(productObject.getDiscount() + 5);
+		System.out.println("Offer for Gold on Festival");
+	end
